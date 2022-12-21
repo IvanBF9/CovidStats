@@ -21,7 +21,13 @@ group_age$couv_complet <- rowSums(group_age[, c(
     )])
 
 # Group by age to get median of couv
-group_age <- group_age %>%
+group_age_couv <- group_age %>%
 group_by(clage_vacsi) %>%
-summarise(Median=median(couv_complet/2))
-View(group_age)
+summarise(CouvComplet=median(couv_complet/2))
+View(group_age_couv)
+
+# Couv Men Women
+group_age_couv_hf <- group_age %>%
+group_by(clage_vacsi) %>%
+summarise(CouvF=median(couv_complet_f), CouvH=median(couv_complet_h))
+View(group_age_couv_hf)
