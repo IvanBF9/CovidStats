@@ -15,15 +15,13 @@ group_age <- data %>% filter(clage_vacsi > 0)
 
 
 # Concat all couv in one
-group_age$couv_complet <- do.call(paste, group_age[, c(
-    "couv_complet_e",
+group_age$couv_complet <- rowSums(group_age[, c(
     "couv_complet_f",
     "couv_complet_h"
     )])
 
 # Group by age to get median of couv
 group_age <- group_age %>%
-group_by(clage_vacsi)%>%
-summarise(Median=median(couv_complet))
-
+group_by(clage_vacsi) %>%
+summarise(Median=median(couv_complet/2))
 View(group_age)
