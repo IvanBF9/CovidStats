@@ -1,3 +1,2 @@
-
-install.packages("dplyr")
+install.packages(c("dplyr","shiny"))
 update.packages()
