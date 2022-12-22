@@ -37,7 +37,13 @@ summarise(CouvComplet=median(couv_complet/2), OneDosed=median(one_dosed/2))
 group_age_couv_hf <- group_age %>%
 group_by(clage_vacsi) %>%
 summarise(CouvF=median(couv_complet_f), CouvH=median(couv_complet_h))
-# View(group_age_couv_hf)
+
+
+sex_plot <- ggplot() +
+  geom_area(data = group_age_couv_hf, aes(x = clage_vacsi, y = CouvF, fill="Femme"), color = "#FF24C27F", alpha = 0.5) +
+  geom_area(data = group_age_couv_hf, aes(x = clage_vacsi, y = CouvH, fill="Homme"), color = "#3BB0FF7F", alpha = 0.5) +
+  labs(title = "Difference couverture vaccinale Homme Femme", x = "Classe d'age",)
+
 
 
 group_year_age <- data %>% filter(clage_vacsi > 0)
@@ -47,19 +53,32 @@ group_year_age$couv_complet <- rowSums(group_year_age[, c(
     )])
 group_year_age <- group_year_age %>% separate(jour, into = c("year", "month", "day"), sep = "-")
 group_year_age <- group_year_age %>%
-group_by(clage_vacsi, year) %>%
+group_by(year, clage_vacsi) %>%
 summarise(CouvComplet=median(couv_complet/2))
 group_year_age  <- group_year_age %>% filter(year != '2020')
 
-View(group_year_age)
+# 2021
+# 2022
+data_one <- group_year_age %>% filter(year == '2021')
+data_two <- group_year_age %>% filter(year == '2022')
 
-# X axis
+year_plot <- ggplot() +
+  geom_area(data = data_one, aes(x = clage_vacsi, y = CouvComplet, fill="2021"), color = "#FF24C27F", alpha = 0.5) +
+  geom_area(data = data_two, aes(x = clage_vacsi, y = CouvComplet, fill="2022"), color = "#3BB0FF7F", alpha = 0.5) +
+  labs(title = "Couverture vaccinale 2021 / 2022", x = "Classe d'age",)
+
+data$couv_complet <- rowSums(data[, c(
+    "couv_complet_f",
+    "couv_complet_h"
+    )])
+reg_data <- data %>%
+group_by(reg) %>%
+summarise(Couv=median(couv_complet/2), reg_str = toString(reg))
 
 
+reg_plot <- ggplot(reg_data, aes(x = reg_str, y = Couv, fill=reg)) +
+  geom_col(position = position_dodge(0.1))
 
-
-
-ggplot(data=group_year_age,
-mapping=aes(x = clage_vacsi, y = CouvComplet, fill=year)) +
-geom_bar(stat = "identity", fill = "blue") +
-labs(title = "Ventes de produits", x = "Produit", y = "Ventes (en euros)")
+# sex_plot
+# year_plot
+reg_plot
