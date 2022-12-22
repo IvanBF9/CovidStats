@@ -1,2 +1,2 @@
-install.packages(c("dplyr","shiny"))
+install.packages(c("dplyr","shiny", "tidyr", "ggplot2"))
 update.packages()
