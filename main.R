@@ -8,7 +8,6 @@ data <- read.csv(file = "vacsi-s-a-reg-2022-12-19-19h00.csv", sep=";", header=TR
 
 # Drop na
 data <- na.omit(data)
-
 # get name of columns
 names(data)
 
@@ -155,7 +154,7 @@ diff_couv_dose_plot_2022 <- ggplot() +
   labs(title = "2022", x = "Classes d'âge", y = "Vaccin")
 
 
-# Plots
+# -- Plots --
 # sex_plot
 # year_plot
 # reg_plot
@@ -163,5 +162,3 @@ diff_couv_dose_plot_2022 <- ggplot() +
 # auvergne_plot
 # diff_couv_dose_plot_2022
 # diff_couv_dose_plot_2021
-library(gridExtra)
-regions_abt <- grid.arrange(guyanne_plot, auvergne_plot, nrow = 2)
