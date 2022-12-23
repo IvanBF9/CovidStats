@@ -23,3 +23,10 @@ Packages
 ```
 packages.R
 ```
+
+![R](Row1.png)
+
+
+```
+Made with ❤ by Louis Poulin & Ivan Braga Fernandes
+```
