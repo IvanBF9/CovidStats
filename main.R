@@ -1,6 +1,7 @@
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(stringr)
 
 # Read csv
 data <- read.csv(file = "vacsi-s-a-reg-2022-12-19-19h00.csv", sep=";", header=TRUE)
@@ -74,6 +75,40 @@ data$couv_complet <- rowSums(data[, c(
 reg_data <- data %>%
 group_by(reg) %>%
 summarise(Couv=median(couv_complet/2), reg_str = toString(reg))
+
+reg_names <- c(
+    "Guadeloupe",
+    "Martinique",
+    "Guyane",
+    "La Réunion",
+    "Ile-de-France",
+    "Centre-Val de Loire",
+    "Bourgogne-Franche-Comté",
+    "Normandie",
+    "Hauts-de-France",
+    "Grand Est",
+    "Pays de la Loire",
+    "Bretagne",
+    "Nouvelle-Aquitaine",
+    "Occitanie",
+    "Auvergne-Rhône-Alpes",
+    "Provence-Alpes-Côte d’Azur",
+    "Corse",
+    "Saint-Pierre-et-Miquelon",
+    "Mayotte",
+    "Saint-Barthélemy",
+    "Saint-Martin")
+
+reg_num <- c("01", "02", "03", "04", "11", "24", "27", "28", "32", "44", "52", "53", "75", "76", "84", "93", "94", "05", "06", "07", "08")
+
+index <- 0
+for (name in reg_names){
+    index <- index + 1
+    reg_data[index,]$reg_str <- name
+}
+
+reg_data <- na.omit(reg_data)
+View(reg_data)
 
 
 reg_plot <- ggplot(reg_data, aes(x = reg_str, y = Couv, fill=reg)) +

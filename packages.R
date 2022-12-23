@@ -1,2 +1,2 @@
-install.packages(c("dplyr","shiny", "tidyr", "ggplot2", "shinythemes", "tidyverse"))
+install.packages(c("dplyr","shiny", "tidyr", "ggplot2", "shinythemes", "tidyverse", "stringr"))
 update.packages()
