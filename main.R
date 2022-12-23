@@ -8,7 +8,6 @@ data <- read.csv(file = "vacsi-s-a-reg-2022-12-19-19h00.csv", sep=";", header=TR
 
 # Drop na
 data <- na.omit(data)
-
 # get name of columns
 names(data)
 
@@ -48,10 +47,14 @@ group_year_age$couv_complet <- rowSums(group_year_age[, c(
     "couv_complet_f",
     "couv_complet_h"
     )])
+group_year_age$one_dosed <- rowSums(group_year_age[, c(
+    "couv_dose1_f",
+    "couv_dose1_h"
+    )])
 group_year_age <- group_year_age %>% separate(jour, into = c("year", "month", "day"), sep = "-")
 group_year_age <- group_year_age %>%
 group_by(year, clage_vacsi) %>%
-summarise(CouvComplet=median(couv_complet/2))
+summarise(CouvComplet=median(couv_complet/2), OneDosed=median(one_dosed/2))
 group_year_age  <- group_year_age %>% filter(year != '2020')
 
 
@@ -108,7 +111,7 @@ for (name in reg_names){
 
 reg_data <- na.omit(reg_data)
 
-reg_plot <- ggplot(reg_data, aes(x = reg_str, y = Couv, fill=reg)) +
+reg_plot <- ggplot(reg_data, aes(x = reg_str, y = Couv, fill=Couv)) +
   geom_col(position = position_dodge(0.1)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5))+
   labs( x = "Regions", y = "Couverture vaccinale")
@@ -126,20 +129,36 @@ reg_year_sex$month <- as.integer(reg_year_sex$month)
 guyanne <- reg_year_sex %>% filter(reg == 03)
 Auvergne <- reg_year_sex %>% filter(reg == 84)
 
-View(guyanne)
+#View(guyanne)
 
 guyanne_plot <- ggplot() +
   geom_area(data = guyanne, aes(x = month, y = CouvH, fill="Homme"), color = "#FF24C27F", alpha = 0.5) +
   geom_area(data = guyanne, aes(x = month, y = CouvF, fill="Femme"), color = "#3BB0FF7F", alpha = 0.5) +
-  labs(x = "Mois", y = "Couverture vaccinale")
+  labs(title="Guyane", x = "Mois", y = "Couverture vaccinale")
 
 auvergne_plot <- ggplot() +
   geom_area(data = Auvergne, aes(x = month, y = CouvH, fill="Homme"), color = "#FF24C27F", alpha = 0.5) +
   geom_area(data = Auvergne, aes(x = month, y = CouvF, fill="Femme"), color = "#3BB0FF7F", alpha = 0.5) +
-  labs(x = "Mois", y = "Couverture vaccinale")
+  labs(title="Auvergne-Rhône-Alpes", x = "Mois", y = "Couverture vaccinale")
 
+
+
+diff_couv_dose_plot_2021 <- ggplot() +
+  geom_area(data = data_one, aes(x = clage_vacsi, y = OneDosed, fill="min une dose"), color = "#FF24C27F", alpha = 0.5) +
+  geom_area(data = data_one, aes(x = clage_vacsi, y = CouvComplet, fill="Couverture"), color = "#3BB0FF7F", alpha = 0.5) +
+  labs(title = "2021", x = "Classes d'âge", y = "Vaccin")
+
+diff_couv_dose_plot_2022 <- ggplot() +
+  geom_area(data = data_two, aes(x = clage_vacsi, y = OneDosed, fill="min une dose"), color = "#FF24C27F", alpha = 0.5) +
+  geom_area(data = data_two, aes(x = clage_vacsi, y = CouvComplet, fill="Couverture"), color = "#3BB0FF7F", alpha = 0.5) +
+  labs(title = "2022", x = "Classes d'âge", y = "Vaccin")
+
+
+# -- Plots --
 # sex_plot
 # year_plot
 # reg_plot
 # guyanne_plot
 # auvergne_plot
+# diff_couv_dose_plot_2022
+# diff_couv_dose_plot_2021

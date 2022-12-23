@@ -1,5 +1,7 @@
 library(shiny)
 library(shinythemes)
+library(gridExtra)
+
 
 source("main.R")
 
@@ -27,21 +29,39 @@ ui <- shinyUI(fluidPage(theme = shinytheme("slate"),
         ),
     ),
     fluidRow(
-        column(12,
+        column(10,
             tags$h3("Couverture vaccinale général par région"),
             plotOutput("reg_plot"),
         ),
+        column(2,
+            tags$h3("Min Max"),
+            tags$style(type="text/css", ".h3{margin-top: 40px;}"),
+            plotOutput("regions_abt"),
+        ),
+    
     ),
+    # fluidRow(
+    #     column(6,
+    #         tags$h3(class="h3", "Couverture vaccinale général par région"),
+    #         tags$style(type="text/css", ".h3{margin-top: 40px;}"),
+    #         plotOutput("guyanne_plot"),
+    #     ),
+    #     column(6,
+    #         tags$h3(class="h3", "Couverture vaccinale général par région"),
+    #         tags$style(type="text/css", ".h3{margin-top: 40px;}"),
+    #         plotOutput("auvergne_plot"),
+    #     ),
+    # ),
     fluidRow(
         column(6,
-            tags$h3(class="h3", "Couverture vaccinale général par région"),
+            tags$h3(class="h3", "Comparaison entre la couverture vaccinale et ceux qui ont reçu au moins une dose année 2021"),
             tags$style(type="text/css", ".h3{margin-top: 40px;}"),
-            plotOutput("guyanne_plot"),
+            plotOutput("diff_couv_dose_plot_2021"),
         ),
         column(6,
-            tags$h3(class="h3", "Couverture vaccinale général par région"),
+            tags$h3(class="h3", "Comparaison entre la couverture vaccinale et ceux qui ont reçu au moins une dose année 2022"),
             tags$style(type="text/css", ".h3{margin-top: 40px;}"),
-            plotOutput("auvergne_plot"),
+            plotOutput("diff_couv_dose_plot_2022"),
         ),
     ),
     fluidRow(
@@ -56,8 +76,12 @@ server <- shinyServer(function(input, output) {
     output$reg_plot <- renderPlot({reg_plot})
     output$sex_plot <- renderPlot({sex_plot})
     output$year_plot <- renderPlot({year_plot})
-    output$guyanne_plot <- renderPlot({guyanne_plot})
-    output$auvergne_plot <- renderPlot({auvergne_plot})
+    # output$guyanne_plot <- renderPlot({guyanne_plot})
+    # output$auvergne_plot <- renderPlot({auvergne_plot})
+    output$diff_couv_dose_plot_2021 <- renderPlot({diff_couv_dose_plot_2021})
+    output$diff_couv_dose_plot_2022 <- renderPlot({diff_couv_dose_plot_2022})
+
+    output$regions_abt <- renderPlot({grid.arrange(guyanne_plot, auvergne_plot, nrow = 2)})
 })
 
 shinyApp(ui=ui, server=server)
