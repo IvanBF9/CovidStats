@@ -36,12 +36,12 @@ ui <- shinyUI(fluidPage(theme = shinytheme("slate"),
         column(6,
             tags$h3(class="h3", "Couverture vaccinale général par région"),
             tags$style(type="text/css", ".h3{margin-top: 40px;}"),
-            plotOutput("first_plot"),
+            plotOutput("guyanne_plot"),
         ),
         column(6,
             tags$h3(class="h3", "Couverture vaccinale général par région"),
             tags$style(type="text/css", ".h3{margin-top: 40px;}"),
-            plotOutput("second_plot"),
+            plotOutput("auvergne_plot"),
         ),
     ),
     fluidRow(
@@ -56,11 +56,8 @@ server <- shinyServer(function(input, output) {
     output$reg_plot <- renderPlot({reg_plot})
     output$sex_plot <- renderPlot({sex_plot})
     output$year_plot <- renderPlot({year_plot})
-    output$first_plot <- renderPlot(ggplot(reg_data, aes(x = reg_str, y = Couv, fill=reg)) + geom_col(position = position_dodge(0.1)))
-    output$second_plot <- renderPlot(ggplot() +
-    geom_area(data = group_age_couv_hf, aes(x = clage_vacsi, y = CouvF, fill="Femme"), color = "#FF24C27F", alpha = 0.5) +
-    geom_area(data = group_age_couv_hf, aes(x = clage_vacsi, y = CouvH, fill="Homme"), color = "#3BB0FF7F", alpha = 0.5) +
-    labs(title = "Difference couverture vaccinale Homme Femme", x = "Classe d'age",))
+    output$guyanne_plot <- renderPlot({guyanne_plot})
+    output$auvergne_plot <- renderPlot({auvergne_plot})
 })
 
 shinyApp(ui=ui, server=server)
