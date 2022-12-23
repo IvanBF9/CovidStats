@@ -5,9 +5,9 @@
 
 # Statistiques choisies
 
-### - Couverture vaccinale général pour les années 2021/2022
-### - Couverture vaccinale général par sexe H/F
-### - Couverture vaccinale général par région
+### - Différence de couverture vaccinale entre 2021 et 2022.
+### - Différence de couverture vaccinale entre les hommes et les femmes.
+### - Comparaison de la couverture vaccinale général par région
 ### - Comparaison entre la couverture vaccinale et ceux qui ont reçu au moins une dose année 2021
 ### - Comparaison entre la couverture vaccinale et ceux qui ont reçu au moins une dose année 2022
 
