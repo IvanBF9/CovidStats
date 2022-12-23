@@ -23,3 +23,12 @@ Packages
 ```
 packages.R
 ```
+
+![R](https://github.com/IvanBF9/CovidStats/blob/dev/imgs/Row1.png?raw=true)
+![R](https://github.com/IvanBF9/CovidStats/blob/dev/imgs/Row2.png?raw=true)
+![R](https://github.com/IvanBF9/CovidStats/blob/dev/imgs/Row3.png?raw=true)
+
+
+```
+Made with ❤ by Louis Poulin & Ivan Braga Fernandes
+```
